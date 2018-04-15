@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.classcost.mapper.ClassTotalMapper" >
+  <resultMap id="BaseResultMap" type="com.classcost.entity.ClassTotal" >
+    <id column="class_cost_id" property="classCostId" jdbcType="BIGINT" />
+    <result column="class_num" property="classNum" jdbcType="VARCHAR" />
+    <result column="total" property="total" jdbcType="DOUBLE" />
+    <result column="state" property="state" jdbcType="CHAR" />
+    <result column="change_time" property="changeTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    class_cost_id, class_num, total, state, change_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from class_total
+    where class_cost_id = #{classCostId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from class_total
+    where class_cost_id = #{classCostId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.classcost.entity.ClassTotal" >
+    insert into class_total (class_cost_id, class_num, total, 
+      state, change_time)
+    values (#{classCostId,jdbcType=BIGINT}, #{classNum,jdbcType=VARCHAR}, #{total,jdbcType=DOUBLE}, 
+      #{state,jdbcType=CHAR}, #{changeTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.classcost.entity.ClassTotal" >
+    insert into class_total
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="classCostId != null" >
+        class_cost_id,
+      </if>
+      <if test="classNum != null" >
+        class_num,
+      </if>
+      <if test="total != null" >
+        total,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="changeTime != null" >
+        change_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="classCostId != null" >
+        #{classCostId,jdbcType=BIGINT},
+      </if>
+      <if test="classNum != null" >
+        #{classNum,jdbcType=VARCHAR},
+      </if>
+      <if test="total != null" >
+        #{total,jdbcType=DOUBLE},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=CHAR},
+      </if>
+      <if test="changeTime != null" >
+        #{changeTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.classcost.entity.ClassTotal" >
+    update class_total
+    <set >
+      <if test="classNum != null" >
+        class_num = #{classNum,jdbcType=VARCHAR},
+      </if>
+      <if test="total != null" >
+        total = #{total,jdbcType=DOUBLE},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=CHAR},
+      </if>
+      <if test="changeTime != null" >
+        change_time = #{changeTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where class_cost_id = #{classCostId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 根据班级号更新 -->
+   <update id="updateByClassNumKeySelective" parameterType="com.classcost.entity.ClassTotal" >
+    update class_total
+    <set >
+      <if test="classNum != null" >
+        class_num = #{classNum,jdbcType=VARCHAR},
+      </if>
+      <if test="total != null" >
+        total = #{total,jdbcType=DOUBLE},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=CHAR},
+      </if>
+      <if test="changeTime != null" >
+        change_time = #{changeTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where class_num = #{classNum,jdbcType=VARCHAR}
+  </update>
+  
+   
+  <update id="updateByPrimaryKey" parameterType="com.classcost.entity.ClassTotal" >
+    update class_total
+    set class_num = #{classNum,jdbcType=VARCHAR},
+      total = #{total,jdbcType=DOUBLE},
+      state = #{state,jdbcType=CHAR},
+      change_time = #{changeTime,jdbcType=TIMESTAMP}
+    where class_cost_id = #{classCostId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 根据班级号查重 -->
+  <select id="selectByCountClaNum" parameterType="String" resultType="int">
+  	SELECT COUNT(class_cost_id) FROM class_total WHERE class_num = #{classNum,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 根据班级号,查询记录 -->  
+  <select id="selectByClaNum" parameterType="String" resultMap="BaseResultMap">
+  	SELECT * FROM class_total WHERE class_num = #{classNum,jdbcType=VARCHAR}
+  </select>
+  
+  
+  
+  
+</mapper>
